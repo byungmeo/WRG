@@ -1,0 +1,5 @@
+fastmcp
+numpy
+pandas
+koreanize_matplotlib
+matplotlib
