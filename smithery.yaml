@@ -1,14 +1,12 @@
 # Smithery.ai configuration
 startCommand:
-  type: stdio
+  type: http
   configSchema:
     type: object
-    required: [name, description, version]
     properties:
       name:
         type: string
-        description: "Tool Name"
-        default: "Weapon Recoil Generator"
+        description: "Weapon Recoil Generator and Visualization"
       description:
         type: string
         description: >
