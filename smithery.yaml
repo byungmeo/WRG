@@ -1,0 +1,21 @@
+# Smithery.ai configuration
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    required: [name, description, version]
+    properties:
+      name:
+        type: Weapon Recoil Generator
+        description: "Tools Name"
+      description:
+        type: A tool for generating weapon recoil trajectories used in FPS game development. Supports generation for machine guns, shotguns, pistols, and more.
+        description: "Tool Description"
+      version:
+        type: 1.0.0
+        description: "Server Version"
+  commandFunction: |-
+    (config) => ({
+      command: "python",
+      args: ["run", "mcp.py"]
+    })
