@@ -1,4 +1,7 @@
 from fastmcp import FastMCP
+import sys
+import io
+import base64
 import numpy as np
 import pandas as pd
 import koreanize_matplotlib
@@ -6,10 +9,11 @@ import matplotlib.pyplot as plt
 
 # 1. MCP Server
 mcp = FastMCP(
-    "VALORITHM",
+    "WSG",
     instructions="You are an AI assistant who utilizes tools that can help with game development",
-    # host="localhost",
-    # port=8000
+    http=True,
+    host="0.0.0.0",
+    port=8080
     )
 
 # 2. Tool Setting
@@ -44,7 +48,7 @@ def machinegun_recoil_points(shots: int):
     # x의 요소를 누적합으로 계산
     x_cum = np.cumsum(x)
     y_cum = np.cumsum(y)
-    print("생성이 완료되었습니다")
+    print(f"Completed shotgun_recoil_points: generated {len(x_cum)} points", file=sys.stderr)
     
     return x_cum, y_cum
 
@@ -79,7 +83,7 @@ def pistol_recoil_points(shots: int):
     # x의 요소를 누적합으로 계산
     x_cum = np.cumsum(x)
     y_cum = np.cumsum(y)
-    print("생성이 완료되었습니다")
+    print(f"Completed shotgun_recoil_points: generated {len(x_cum)} points", file=sys.stderr)
 
     return x_cum, y_cum
 
@@ -91,6 +95,7 @@ def shotgun_recoil_points(shots: int):
     산탄총 반동 궤적을 생성합니다.
     퍼짐이 강한 산포형 탄착군을 모사합니다.
     """
+    print(f"Starting shotgun_recoil_points with {shots} shots", file=sys.stderr)
     x = []
     y = []
 
@@ -111,7 +116,7 @@ def shotgun_recoil_points(shots: int):
     # 누적합 없이 그대로 분포 시각화
     x_cum = x
     y_cum = y
-    print("생성이 완료되었습니다")
+    print(f"Completed shotgun_recoil_points: generated {len(x_cum)} points", file=sys.stderr)
 
     return x_cum, y_cum
     
