@@ -6,14 +6,18 @@ startCommand:
     required: [name, description, version]
     properties:
       name:
-        type: Weapon Recoil Generator
-        description: "Tools Name"
+        type: string
+        description: "Tool Name"
+        default: "Weapon Recoil Generator"
       description:
-        type: A tool for generating weapon recoil trajectories used in FPS game development. Supports generation for machine guns, shotguns, pistols, and more.
-        description: "Tool Description"
+        type: string
+        description: >
+          A tool for generating weapon recoil trajectories used in FPS
+          game development. Supports generation for machine guns, shotguns,
+          pistols, and more.
       version:
-        type: 1.0.0
-        description: "Server Version"
+        type: string
+        description: "1.0.0"
   commandFunction: |-
     (config) => ({
       command: "python",
