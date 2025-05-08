@@ -19,5 +19,5 @@ startCommand:
   commandFunction: |-
     (config) => ({
       command: "python",
-      args: ["run", "mcp.py"]
+      args: ["mcp.py"]
     })
