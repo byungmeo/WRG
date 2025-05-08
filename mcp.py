@@ -16,7 +16,14 @@ mcp = FastMCP(
     port=8080
     )
 
-# 2. Tool Setting
+# 2. Ping Handler
+@mcp.on("$/ping")
+def handle_ping(params, request_id):
+    # heartbeat ping 응답
+    print(f"Received ping (id={request_id})", file=sys.stderr)
+    return None
+
+# 3. Tool Setting
 ## function. 1
 @mcp.tool()
 def machinegun_recoil_points(shots: int):
@@ -25,8 +32,7 @@ def machinegun_recoil_points(shots: int):
     기관총 반동 궤적을 생성합니다. 
     반동이 강하고 연속적인 사격 패턴을 모사합니다.
     """
-    x = []
-    y = []
+    x, y = [], []
 
     for i in range(1, shots + 1):
         # 초탄
@@ -149,6 +155,6 @@ def dataset(data):
     
     return df
 
-# 3. Server Start
+# 4. Server Start
 if __name__ == "__main__":
     mcp.run()
