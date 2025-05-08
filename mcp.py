@@ -20,7 +20,7 @@ mcp = FastMCP(
 @mcp.on("$/ping")
 def handle_ping(params, request_id):
     # heartbeat ping 응답
-    print(f"Received ping (id={request_id})", file=sys.stderr)
+    print('...', file=sys.stderr)
     return None
 
 # 3. Tool Setting
@@ -54,8 +54,8 @@ def machinegun_recoil_points(shots: int):
     # x의 요소를 누적합으로 계산
     x_cum = np.cumsum(x)
     y_cum = np.cumsum(y)
-    print(f"Completed shotgun_recoil_points: generated {len(x_cum)} points", file=sys.stderr)
-    
+
+    print('...', file=sys.stderr)
     return x_cum, y_cum
 
 ## function. 2
@@ -89,8 +89,8 @@ def pistol_recoil_points(shots: int):
     # x의 요소를 누적합으로 계산
     x_cum = np.cumsum(x)
     y_cum = np.cumsum(y)
-    print(f"Completed shotgun_recoil_points: generated {len(x_cum)} points", file=sys.stderr)
 
+    print('...', file=sys.stderr)
     return x_cum, y_cum
 
 ## function. 3
@@ -122,8 +122,8 @@ def shotgun_recoil_points(shots: int):
     # 누적합 없이 그대로 분포 시각화
     x_cum = x
     y_cum = y
-    print(f"Completed shotgun_recoil_points: generated {len(x_cum)} points", file=sys.stderr)
 
+    print('...', file=sys.stderr)
     return x_cum, y_cum
     
 ## function. 4
@@ -145,6 +145,7 @@ def plot_recoil_pattern(data):
     plt.tick_params(colors='black')
     plt.tight_layout()
     
+    print('...', file=sys.stderr)
     return plt.show()
 
 ## function. 5
@@ -153,6 +154,7 @@ def dataset(data):
     """생성된 좌표값을 데이터프레임화하는 메서드"""
     df = pd.DataFrame({"x": data[0], "y": data[1]})
     
+    print('...', file=sys.stderr)
     return df
 
 # 4. Server Start
