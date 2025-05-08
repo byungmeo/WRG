@@ -11,9 +11,7 @@ import matplotlib.pyplot as plt
 mcp = FastMCP(
     "WSG",
     instructions="You are an AI assistant who utilizes tools that can help with game development",
-    http=True,
-    host="0.0.0.0",
-    port=8080
+    http=True
     )
 
 # 2. Ping Handler
