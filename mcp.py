@@ -11,17 +11,23 @@ import matplotlib.pyplot as plt
 mcp = FastMCP(
     "WSG",
     instructions="You are an AI assistant who utilizes tools that can help with game development",
-    http=True
-    )
+    http=True,
+    host="0.0.0.0",
+    port=8000
+)
+
 
 # 2. Ping Handler
+
 @mcp.on("$/ping")
 def handle_ping(params, request_id):
-    # heartbeat ping 응답
+    """heartbeat ping 응답, 30sec 방지"""
     print('...', file=sys.stderr)
     return None
 
+
 # 3. Tool Setting
+
 ## function. 1
 @mcp.tool()
 def machinegun_recoil_points(shots: int):
@@ -157,4 +163,5 @@ def dataset(data):
 
 # 4. Server Start
 if __name__ == "__main__":
+    print("Starting MCP server...", file=sys.stderr)
     mcp.run()
