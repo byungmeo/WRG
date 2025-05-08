@@ -3,6 +3,7 @@ startCommand:
   type: http
   configSchema:
     type: object
+    required: [name, description, version]
     properties:
       name:
         type: string
@@ -16,8 +17,4 @@ startCommand:
       version:
         type: string
         description: "1.0.0"
-  commandFunction: |-
-    (config) => ({
-      command: "python",
-      args: ["mcp.py"]
-    })
+        default: "1.0.0"
