@@ -17,10 +17,6 @@ mcp = FastMCP(
     port=8000
 )
 
-@app.post("/mcp")
-async def handle_mcp(request: dict):
-    return await mcp.handle(request)
-
 # 2. Ping Handler
 @mcp.on("$/ping")
 def handle_ping(params, request_id):
