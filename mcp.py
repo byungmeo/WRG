@@ -1,43 +1,52 @@
+# mcp.py
 from fastmcp import FastMCP
+import asyncio
 import sys
 import io
 import base64
 import numpy as np
 import pandas as pd
-import koreanize_matplotlib
 import matplotlib.pyplot as plt
 
-# 1. MCP Server
+# 1. MCP Server 설정 (HTTP 모드)
 mcp = FastMCP(
-    "WSG",
+    name="WSG",
     instructions="You are an AI assistant who utilizes tools that can help with game development",
     http=True,
     host="0.0.0.0",
     port=8000
 )
 
+@app.post("/mcp")
+async def handle_mcp(request: dict):
+    return await mcp.handle(request)
 
 # 2. Ping Handler
-
 @mcp.on("$/ping")
 def handle_ping(params, request_id):
-    """heartbeat ping 응답, 30sec 방지"""
+    """heartbeat ping 응답, 30sec nontification 방지"""
     print('...', file=sys.stderr)
     return None
 
 
-# 3. Tool Setting
+# 3. Tool Definitions
 
-## function. 1
+## 3.1 Machinegun Recoil
 @mcp.tool()
-def machinegun_recoil_points(shots: int):
+def machinegun_recoil_points(shots):
     """
     machinegun_recoil_points(shots: int):
     기관총 반동 궤적을 생성합니다. 
     반동이 강하고 연속적인 사격 패턴을 모사합니다.
     """
-    x, y = [], []
+    try:
+        shots = int(shots)
+        if shots < 1 or shots > 100:
+            raise ValueError
+    except:
+        raise ValueError("Shots must be an integer between 1 and 100")
 
+    x, y = [], []
     for i in range(1, shots + 1):
         # 초탄
         if i <= int(shots/3):
@@ -60,19 +69,24 @@ def machinegun_recoil_points(shots: int):
     y_cum = np.cumsum(y)
 
     print('...', file=sys.stderr)
-    return x_cum, y_cum
+    return x_cum.tolist(), y_cum.tolist()
 
-## function. 2
+## 3.2 Pistol Recoil
 @mcp.tool()
-def pistol_recoil_points(shots: int):
+def pistol_recoil_points(shots):
     """
     pistol_recoil_points(shots: int):
     권총 반동 궤적을 생성합니다. 
     상대적으로 짧고 일관된 반동 패턴을 가집니다.
     """
-    x = []
-    y = []
-
+    try:
+        shots = int(shots)
+        if shots < 1 or shots > 15:
+            raise ValueError
+    except:
+        raise ValueError("shots must be an integer between 1 and 15")
+    
+    x = [], y = []
     for i in range(1, shots + 1):
         # 초탄
         if i <= int(shots/3):
@@ -95,73 +109,68 @@ def pistol_recoil_points(shots: int):
     y_cum = np.cumsum(y)
 
     print('...', file=sys.stderr)
-    return x_cum, y_cum
+    return x_cum.tolist(), y_cum.tolist()
 
-## function. 3
+## 3.3 Shotgun Recoil
 @mcp.tool()
-def shotgun_recoil_points(shots: int):
+def shotgun_recoil_points(shots, pelletsPerShot):
     """
-    shotgun_recoil_points(shots: int):
+    shotgun_recoil_points(shots: int, pellets_per_shots: int):
     산탄총 반동 궤적을 생성합니다.
     퍼짐이 강한 산포형 탄착군을 모사합니다.
     """
-    print(f"Starting shotgun_recoil_points with {shots} shots", file=sys.stderr)
+
+    try:
+        shots = int(shots)
+        pelletsPerShot = int(pelletsPerShot)
+        if shots < 1 or shots > 8:
+            raise ValueError("shots must be an integer between 1 and 8")
+        if pelletsPerShot < 4 or pelletsPerShot > 50:
+         raise ValueError("pelletsPerShot must be an integer between 1 and 50")
+    except:
+        raise ValueError("shots and pelletsPerShot must be integers")
+    
     x = []
     y = []
-
-    pellets_per_shot = 16  # 한 발에 퍼지는 산탄 수
-
-    for i in range(1, shots + 1):
-        for _ in range(pellets_per_shot):
-            if i == 1:
-                dx = np.random.normal(0.0, 0.5)
-                dy = np.random.normal(0.0, 0.5)
-            else:
-                dx = np.random.normal(0.0, 2.5)
-                dy = np.random.normal(0.0, 2.5)
-
+    for _ in range(shots):
+        for _ in range(pelletsPerShot):
+            dx = np.random.normal(0.0, 2.5)
+            dy = np.random.normal(0.0, 2.5)
             x.append(dx)
             y.append(dy)
 
-    # 누적합 없이 그대로 분포 시각화
-    x_cum = x
-    y_cum = y
-
     print('...', file=sys.stderr)
-    return x_cum, y_cum
+    return x, y
     
-## function. 4
-@mcp.tool()    
+## 3.4 Plot Recoil Pattern
+@mcp.tool()
 def plot_recoil_pattern(data):
     """생성된 좌표값을 시각화하는 메서드"""
-    plt.figure(figsize=(5, 5))
-    plt.scatter(data[0], data[1], c='red', s=10, marker='s')  # y축 반전해서 위로 튀는 느낌
-    plt.axhline(0, color='black', linestyle='--', linewidth=1)
-    plt.axvline(0, color='black', linestyle='--', linewidth=1)
-    plt.gca().set_facecolor('white')
-    plt.grid(True, linestyle=':', color='grey', alpha=0.3)
-    plt.xticks(np.arange(-10, 10, 1))
-    plt.yticks(np.arange(-10, 10, 1))
-    plt.xlim(-10, 10)
-    plt.ylim(-10, 10)
-    plt.gca().set_aspect('equal')
-    plt.title("Improved Recoil Pattern", color='black')
-    plt.tick_params(colors='black')
+    fig, ax = plt.subplots(figsize=(5, 5))
+    ax.scatter(data[0], data[1], s=10, marker='s')
+    ax.axhline(0, linestyle='--', linewidth=1); ax.axvline(0, linestyle='--', linewidth=1)
+    ax.set_facecolor('white'); ax.grid(True, linestyle=':', alpha=0.3)
+    ax.set_xlim(-10, 10); ax.set_ylim(-10, 10); ax.set_aspect('equal')
+    ax.set_title("Improved Recoil Pattern")
     plt.tight_layout()
-    
-    print('...', file=sys.stderr)
-    return plt.show()
+    buf = io.BytesIO()
+    fig.savefig(buf, format='png'); plt.close(fig)
+    buf.seek(0)
+    b64 = base64.b64encode(buf.read()).decode('ascii')
 
-## function. 5
+    print('...', file=sys.stderr)   
+    return {"image/png;base64": b64}
+
+## 3.5 Dataset Conversion
 @mcp.tool()
 def dataset(data):
     """생성된 좌표값을 데이터프레임화하는 메서드"""
     df = pd.DataFrame({"x": data[0], "y": data[1]})
-    
-    print('...', file=sys.stderr)
-    return df
+
+    print('...', file=sys.stderr)     
+    return df.to_dict(orient="records")
 
 # 4. Server Start
 if __name__ == "__main__":
     print("Starting MCP server...", file=sys.stderr)
-    mcp.run()
+    mcp.run(host="0.0.0.0", port=8000)
