@@ -10,10 +10,8 @@ import matplotlib.pyplot as plt
 # 1. MCP Server 설정 (HTTP 모드)
 mcp = FastMCP(
     name="WSG",
-    instructions="You are an AI assistant who utilizes tools that can help with game development"
-    # http=True,
-    # host="0.0.0.0",
-    # port=8000
+    instructions="You are an AI assistant who utilizes tools that can help with game development",
+    http=True
 )
 
 # 2. Ping Handler
@@ -168,4 +166,4 @@ def dataset(data):
 # 4. Server Start
 if __name__ == "__main__":
     print("Starting MCP server...", file=sys.stderr)
-    mcp.run(transport="sse", host="0.0.0.0", port=8000)
+    mcp.run()
