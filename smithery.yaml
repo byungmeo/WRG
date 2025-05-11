@@ -1,6 +1,6 @@
 # Smithery.ai configuration
 startCommand:
-  type: http
+  type: http # streamalbe HTTP
   configSchema:
     type: object
     required: [name, description, version]
