@@ -22,7 +22,7 @@ def ping(config: dict = None):
 # 3. Tool Definitions
 ## 3.1 Machinegun Recoil
 @mcp.tool()
-def machinegun_recoil_points(shots, config: dict = None):
+def machinegun_recoil_points(*, shots, config=None):
     """
     machinegun_recoil_points(shots: int):
     기관총 반동 궤적을 생성합니다. 
@@ -62,7 +62,7 @@ def machinegun_recoil_points(shots, config: dict = None):
 
 ## 3.2 Pistol Recoil
 @mcp.tool()
-def pistol_recoil_points(shots, config: dict = None):
+def pistol_recoil_points(*, shots, config=None):
     """
     pistol_recoil_points(shots: int):
     권총 반동 궤적을 생성합니다. 
@@ -102,7 +102,7 @@ def pistol_recoil_points(shots, config: dict = None):
 
 ## 3.3 Shotgun Recoil
 @mcp.tool()
-def shotgun_recoil_points(shots, pelletsPerShot, config: dict = None):
+def shotgun_recoil_points(*, shots, pelletsPerShot, config=None):
     """
     shotgun_recoil_points(shots: int, pellets_per_shots: int):
     산탄총 반동 궤적을 생성합니다.
@@ -133,7 +133,7 @@ def shotgun_recoil_points(shots, pelletsPerShot, config: dict = None):
     
 ## 3.4 Plot Recoil Pattern
 @mcp.tool()
-def plot_recoil_pattern(data, config: dict = None):
+def plot_recoil_pattern(*, data, config=None):
     """생성된 좌표값을 시각화하는 메서드"""
     fig, ax = plt.subplots(figsize=(5, 5))
     ax.scatter(data[0], data[1], s=10, marker='s')
@@ -152,7 +152,7 @@ def plot_recoil_pattern(data, config: dict = None):
 
 ## 3.5 Dataset Conversion
 @mcp.tool()
-def dataset(data, config: dict = None):
+def dataset(*, data, config=None):
     """생성된 좌표값을 데이터프레임화하는 메서드"""
     df = pd.DataFrame({"x": data[0], "y": data[1]})
 
