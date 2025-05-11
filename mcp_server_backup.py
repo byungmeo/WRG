@@ -1,4 +1,4 @@
-# mcp.py
+# mcp_server.py
 from fastmcp import FastMCP
 import sys
 import io
@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 
 # 1. MCP Server 설정 (HTTP 모드)
 mcp = FastMCP(
-    name="WSG",
+    name="WRG",
     instructions="You are an AI assistant who utilizes tools that can help with game development",
     http=True
 )

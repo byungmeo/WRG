@@ -11,7 +11,7 @@ from mcp.server.models import InitializationOptions, NotificationOptions
 import mcp.types as types
 import mcp.server.stdio
 
-server = Server("weapon_recoil_server")
+server = Server("Weapon Recoil Generator")
 
 ### TOOL 1: machinegun_recoil_points
 @server.list_tools()
