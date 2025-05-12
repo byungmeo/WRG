@@ -159,7 +159,8 @@ async def call_tool(name: str, arguments: dict | None) -> list[types.TextContent
         return [types.TextContent(type="text", text=f"[ERROR] {str(e)}")]
 
 async def main():
-    async with mcp_server3.server.stdio.stdio_server() as (read_stream, write_stream):
+    # stdio 서버를 mcp.server.stdio 모듈에서 직접 가져와 사용합니다.
+    async with mcp.server.stdio.stdio_server() as (read_stream, write_stream):
         await server.run(
             read_stream,
             write_stream,
