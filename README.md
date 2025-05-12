@@ -1,14 +1,13 @@
 # <img src="src/assets/target.png" alt="logo" width="32" style="vertical-align:middle;"/> Weapon Recoil Generator – build your own recoil MCP
 
-We released a versatile MCP server that lets FPS game developers generate and visualize weapon recoil patterns via simple API calls.
-FPS 게임 개발자가 간단한 API 호출만으로 무기 반동 패턴을 생성하고 시각화할 수 있는 강력한 MCP 서버를 출시했습니다.
-
-Learn more and deploy on Smithery: [![smithery badge](https://smithery.ai/badge/@Hyeongseob91/mcp-server)](https://smithery.ai/server/@Hyeongseob91/mcp-server)
+* We released a versatile MCP server that lets FPS game developers generate and visualize weapon recoil patterns via simple API calls.
+* FPS 게임 개발자가 간단한 API 호출만으로 무기 반동 패턴을 생성하고 시각화할 수 있는 강력한 MCP 서버를 출시했습니다.
+* Learn more and deploy on Smithery: [![smithery badge](https://smithery.ai/badge/@Hyeongseob91/mcp-server)](https://smithery.ai/server/@Hyeongseob91/mcp-server)
 
 # WRG MCP Server
 
-This MCP server provides two core tools—Weapon Recoil Generation and Recoil Visualization—exposed as HTTP endpoints. Simply deploy locally or in the cloud and start tuning your game’s recoil behavior in real time.
-이 MCP 서버는 ‘무기 반동 생성’과 ‘반동 시각화’라는 두 가지 핵심 도구를 HTTP 엔드포인트로 제공하며, 로컬 또는 클라우드에 배포한 뒤 실시간으로 반동 튜닝을 시작할 수 있습니다.
+* This MCP server provides two core tools—Weapon Recoil Generation and Recoil Visualization—exposed as HTTP endpoints. Simply deploy locally or in the cloud and start tuning your game’s recoil behavior in real time.
+* 이 MCP 서버는 ‘무기 반동 생성’과 ‘반동 시각화’라는 두 가지 핵심 도구를 HTTP 엔드포인트로 제공하며, 로컬 또는 클라우드에 배포한 뒤 실시간으로 반동 튜닝을 시작할 수 있습니다.
 
 ## Installation
 
