@@ -2,7 +2,8 @@
 
 * We released a versatile MCP server that lets FPS game developers generate and visualize weapon recoil patterns via simple API calls.
 * FPS 게임 개발자가 간단한 API 호출만으로 무기 반동 패턴을 생성하고 시각화할 수 있는 강력한 MCP 서버를 출시했습니다.
-* Learn more and deploy on Smithery: [![smithery badge](https://smithery.ai/badge/@Hyeongseob91/mcp-server)](https://smithery.ai/server/@Hyeongseob91/mcp-server)
+
+##Learn more and deploy on Smithery: [![smithery badge](https://smithery.ai/badge/@Hyeongseob91/mcp-server)](https://smithery.ai/server/@Hyeongseob91/mcp-server)
 
 # WRG MCP Server
 
@@ -57,7 +58,7 @@ Claude Desktop을 재시작한 후 /wrg와 /rvz 엔드포인트를 직접 호출
 
     * Generates recoil trajectory data for a machine gun based on the number of shots.
     * 기관총 발사 횟수에 따른 반동 궤적 데이터를 생성합니다.
-    * 
+  
 * **Weapon Recoil Generation (WRG)**
 
   * `pistol_recoil_points(shots: int)`
@@ -126,5 +127,5 @@ Claude Desktop을 재시작한 후 /wrg와 /rvz 엔드포인트를 직접 호출
 
 ## Debugging
 
-Since this server communicates over HTTP, use verbose logging and the built-in reload flag. For deeper inspection, attach a debugger to the Uvicorn process or review the console error outputs.
-이 서버는 HTTP로 통신하므로, 자세한 로깅과 --reload 플래그를 사용하세요. 보다 심층적인 검사를 위해 Uvicorn 프로세스에 디버거를 연결하거나 콘솔 오류 출력을 확인하면 됩니다.
+* Since this server communicates over HTTP, use verbose logging and the built-in reload flag. For deeper inspection, attach a debugger to the Uvicorn process or review the console error outputs.
+* 이 서버는 HTTP로 통신하므로, 자세한 로깅과 --reload 플래그를 사용하세요. 보다 심층적인 검사를 위해 Uvicorn 프로세스에 디버거를 연결하거나 콘솔 오류 출력을 확인하면 됩니다.
