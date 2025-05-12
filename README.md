@@ -1,4 +1,5 @@
-# <img src="src/assets/target.png" alt="logo" width="32" style="vertical-align:middle;"/> WRG (Weapon Recoil Generator) – build your own recoil MCPs
+# <img src="src/assets/target.png" alt="logo" width="32" style="vertical-align:middle;"/> WRG (Weapon Recoil Generator)
+# – build your own recoil MCPs
 
 We released a versatile MCP server that lets FPS game developers generate and visualize weapon recoil patterns via simple API calls.
 
