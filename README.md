@@ -3,7 +3,7 @@
 * We released a versatile MCP server that lets FPS game developers generate and visualize weapon recoil patterns via simple API calls.
 * FPS 게임 개발자가 간단한 API 호출만으로 무기 반동 패턴을 생성하고 시각화할 수 있는 강력한 MCP 서버를 출시했습니다.
 
-##Learn more and deploy on Smithery: [![smithery badge](https://smithery.ai/badge/@Hyeongseob91/mcp-server)](https://smithery.ai/server/@Hyeongseob91/mcp-server)
+## Learn more and deploy on Smithery: [![smithery badge](https://smithery.ai/badge/@Hyeongseob91/mcp-server)](https://smithery.ai/server/@Hyeongseob91/mcp-server)
 
 # WRG MCP Server
 
