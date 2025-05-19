@@ -1,0 +1,9 @@
+{
+    "mcpServers":{
+        "mcp-server":{
+            "command": "C:/Users/user/miniconda3/envs/valorant/python",
+            "args": ["C:\\Wanted\\원티드_포텐업_프로젝트\\VALORITHM\\Smithery\\test\\mcp_server_local.py"],
+            "transport": "stdio"
+        }
+    }
+}
