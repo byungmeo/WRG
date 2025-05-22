@@ -30,8 +30,8 @@ def machinegun_recoil_points(shots):
     for i in range(1, shots + 1):
         # 초탄
         if i <= int(shots/3):
-            dx = np.random.uniform(0.0, 0.2)        # X축 흔들림 거의 없음
-            dy = np.random.uniform(0.0, 0.65)       # Y축 미세 흔들림 증가
+            dx = np.random.uniform(0.0, 0.0)        # X축 흔들림 거의 없음
+            dy = np.random.uniform(0.0, 0.3)       # Y축 미세 흔들림 증가
         # 중탄
         elif i <= int((shots/3)*2):
             dx = np.random.normal(0.1, 0.3)         # X축 미세 흔들림 증가
@@ -123,42 +123,90 @@ def shotgun_recoil_points(shots, pelletsPerShot=16):
 @mcp.tool()
 def plot_recoil_pattern(data):
     """생성된 좌표값을 시각화하는 메서드"""
-    plt.figure(figsize=(5, 5))
-    # 산점도로 반동 궤적 표시 (빨간색 네모 마커)
-    plt.scatter(data[0], data[1], c='red', s=10, marker='s')  # y축 반전해서 위로 튀는 느낌 
-
-    # 중앙에 수평·수직 기준선 추가
+    import ast
+    
+    # 문자열로 전달된 데이터를 파싱
+    if isinstance(data, str):
+        try:
+            data = ast.literal_eval(data)
+        except:
+            return "Error: Invalid data format"
+    
+    # 데이터 검증
+    if not isinstance(data, list) or len(data) != 2:
+        return "Error: Data must be [x_list, y_list] format"
+    
+    x_coords, y_coords = data[0], data[1]
+    
+    plt.figure(figsize=(8, 8))
+    plt.scatter(x_coords, y_coords, c='red', s=30, marker='s', alpha=0.7)
+    
+    # 궤적 연결선 추가
+    plt.plot(x_coords, y_coords, 'b-', alpha=0.3, linewidth=1)
+    
+    # 시작점과 끝점 강조
+    if len(x_coords) > 0:
+        plt.scatter(x_coords[0], y_coords[0], c='green', s=100, marker='o', label='Start')
+        plt.scatter(x_coords[-1], y_coords[-1], c='black', s=100, marker='x', label='End')
+    
     plt.axhline(0, color='black', linestyle='--', linewidth=1)
     plt.axvline(0, color='black', linestyle='--', linewidth=1)
-
-    ax = plt.gca()
-    ax.set_facecolor('white')                          # 배경색 흰색으로 설정
-    ax.grid(True, linestyle=':', color='grey', alpha=0.3)  # 점선 그리드
-
-    # 눈금 설정
-    ax.set_xticks(np.arange(-10, 11, 1))
-    ax.set_yticks(np.arange(-10, 11, 1))
-
-    # 축 범위 설정
-    ax.set_xlim(-10, 10)
-    ax.set_ylim(-10, 10)
-
-    # y축 반전
-    ax.invert_yaxis()
-
-    plt.title("Recoil Pattern")
-    plt.xlabel("X-axis")
-    plt.ylabel("Y-axis")
-
-    return plt.show()
+    
+    plt.grid(True, linestyle=':', color='grey', alpha=0.3)
+    plt.gca().invert_yaxis()  # y축 반전
+    
+    plt.title(f"Recoil Pattern ({len(x_coords)} shots)")
+    plt.xlabel("Horizontal Deviation")
+    plt.ylabel("Vertical Recoil")
+    plt.legend()
+    
+    # 이미지를 Base64로 인코딩하여 반환
+    import io
+    import base64
+    
+    buffer = io.BytesIO()
+    plt.savefig(buffer, format='png', dpi=150, bbox_inches='tight')
+    buffer.seek(0)
+    image_base64 = base64.b64encode(buffer.getvalue()).decode()
+    plt.close()  # 메모리 정리
+    
+    return f"data:image/png;base64,{image_base64}"
 
 ## 3.5 Dataset Conversion
 @mcp.tool()
 def dataset(data):
     """생성된 좌표값을 데이터프레임화하는 메서드"""
-    df = pd.DataFrame({"x": data[0], "y": data[1]})
+    import ast
     
-    return df.to_dict(orient="records")
+    # 문자열로 전달된 데이터를 파싱
+    if isinstance(data, str):
+        try:
+            data = ast.literal_eval(data)
+        except:
+            return [{"error": "Invalid data format"}]
+    
+    # 데이터 검증
+    if not isinstance(data, list) or len(data) != 2:
+        return [{"error": "Data must be [x_list, y_list] format"}]
+    
+    x_coords, y_coords = data[0], data[1]
+    
+    # 길이 검증
+    if len(x_coords) != len(y_coords):
+        return [{"error": "X and Y coordinates length mismatch"}]
+    
+    # 데이터프레임 생성 및 추가 정보 포함
+    records = []
+    for i, (x, y) in enumerate(zip(x_coords, y_coords)):
+        records.append({
+            "shot_number": i + 1,
+            "x_coordinate": round(x, 4),
+            "y_coordinate": round(y, 4),
+            "distance_from_center": round((x**2 + y**2)**0.5, 4),
+            "cumulative_recoil": round(sum(y_coords[:i+1]), 4)
+        })
+    
+    return records
 
 # 4. Server Start
 if __name__ == "__main__":
