@@ -13,7 +13,7 @@ mcp = FastMCP(
 # 2. Tool Definitions
 ## 3.1 Machinegun Recoil
 @mcp.tool()
-def machinegun_recoil_points(*, shots, config=None):
+def machinegun_recoil_points(shots):
     """
     machinegun_recoil_points(shots: int):
     기관총 반동 궤적을 생성합니다. 
@@ -52,7 +52,7 @@ def machinegun_recoil_points(*, shots, config=None):
 
 ## 3.2 Pistol Recoil
 @mcp.tool()
-def pistol_recoil_points(*, shots, config=None):
+def pistol_recoil_points(shots):
     """
     pistol_recoil_points(shots: int):
     권총 반동 궤적을 생성합니다. 
@@ -91,7 +91,7 @@ def pistol_recoil_points(*, shots, config=None):
 
 ## 3.3 Shotgun Recoil
 @mcp.tool()
-def shotgun_recoil_points(*, shots, pelletsPerShot, config=None):
+def shotgun_recoil_points(shots, pelletsPerShot=16):
     """
     shotgun_recoil_points(shots: int, pellets_per_shots: int):
     산탄총 반동 궤적을 생성합니다.
@@ -121,7 +121,7 @@ def shotgun_recoil_points(*, shots, pelletsPerShot, config=None):
     
 ## 3.4 Plot Recoil Pattern
 @mcp.tool()
-def plot_recoil_pattern(*, data, config=None):
+def plot_recoil_pattern(data):
     """생성된 좌표값을 시각화하는 메서드"""
     plt.figure(figsize=(5, 5))
     # 산점도로 반동 궤적 표시 (빨간색 네모 마커)
@@ -154,7 +154,7 @@ def plot_recoil_pattern(*, data, config=None):
 
 ## 3.5 Dataset Conversion
 @mcp.tool()
-def dataset(*, data, config=None):
+def dataset(data):
     """생성된 좌표값을 데이터프레임화하는 메서드"""
     df = pd.DataFrame({"x": data[0], "y": data[1]})
     
