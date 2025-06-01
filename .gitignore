@@ -3,4 +3,5 @@ test
 __pycache__
 pyproject.toml
 mcp
-src/
+mcp.py
+src
