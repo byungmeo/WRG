@@ -26,29 +26,39 @@ def machinegun_recoil_points(shots):
     except:
         raise ValueError("Shots must be an integer between 1 and 100")
 
-    x, y = [], []
+    dx_list, dy_list = [], []
+
     for i in range(1, shots + 1):
         # 초탄
-        if i <= int(shots/3):
-            dx = np.random.uniform(0.0, 0.0)        # X축 흔들림 거의 없음
-            dy = np.random.uniform(0.0, 0.3)       # Y축 미세 흔들림 증가
+        if i == 1:
+            dx = np.random.uniform(0.0, 0.0)
+            dy = np.random.uniform(0.0, 0.0)       
+        elif i <= int(shots / 3):
+            dx = np.random.uniform(0.1, 0.1)
+            dy = np.random.uniform(0.3, 0.3)
         # 중탄
-        elif i <= int((shots/3)*2):
-            dx = np.random.normal(0.1, 0.3)         # X축 미세 흔들림 증가
-            dy = np.random.normal(0.1, 0.3)         # Y축 미세 흔들림 증가
+        elif i <= int((shots / 3) * 2):
+            dx = np.random.normal(0.1, 0.3)
+            dy = np.random.normal(0.1, 0.3)
         # 후탄
         else:
-            dx = np.random.uniform(-1, 0.5)         # X축 흔들림 강함
-            dy = np.random.normal(0.0 , 0.2)        # Y축 흔들림 거의 없음
+            dx = np.random.uniform(1, 0.5)
+            dy = np.random.normal(0.0, 0.2)
 
-        x.append(dx)
-        y.append(dy)
+        dx_list.append(dx)
+        dy_list.append(dy)
 
-    # x의 요소를 누적합으로 계산
-    x_cum = np.cumsum(x)
-    y_cum = np.cumsum(y)
+    # Offset 계산용
+    offset_yaw = dx_list
+    offset_pitch = dy_list
 
-    return x_cum.tolist(), y_cum.tolist()
+    # csvResult 포맷 문자열 생성
+    csv_result = ",".join(
+        [f"(OffsetPitch={round(pitch, 2)},OffsetYaw={round(yaw, 2)})"
+         for pitch, yaw in zip(offset_pitch, offset_yaw)]
+    )
+
+    return f"({csv_result})"
 
 ## 3.2 Pistol Recoil
 @mcp.tool()
@@ -65,7 +75,7 @@ def pistol_recoil_points(shots):
     except:
         raise ValueError("shots must be an integer between 1 and 15")
     
-    x, y = [], []
+    dx_list, dy_list = [], []
     for i in range(1, shots + 1):
         # 초탄
         if i <= int(shots/3):
@@ -80,14 +90,20 @@ def pistol_recoil_points(shots):
             dx = np.random.uniform(-0.1, 0.3)       # X축 흔들림 강함
             dy = np.random.uniform(-0.1, 0.2)         # Y축 거의 없음
 
-        x.append(dx)
-        y.append(dy)
+        dx_list.append(dx)
+        dy_list.append(dy)
 
-    # x의 요소를 누적합으로 계산
-    x_cum = np.cumsum(x)
-    y_cum = np.cumsum(y)
+    # Offset 계산용
+    offset_yaw = dx_list
+    offset_pitch = dy_list
 
-    return x_cum.tolist(), y_cum.tolist()
+    # csvResult 포맷 문자열 생성
+    csv_result = ",".join(
+        [f"(OffsetPitch={round(pitch, 2)},OffsetYaw={round(yaw, 2)})"
+         for pitch, yaw in zip(offset_pitch, offset_yaw)]
+    )
+
+    return f"({csv_result})"
 
 ## 3.3 Shotgun Recoil
 @mcp.tool()
