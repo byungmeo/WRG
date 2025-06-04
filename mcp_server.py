@@ -29,21 +29,18 @@ def machinegun_recoil_points(shots):
     dx_list, dy_list = [], []
 
     for i in range(1, shots + 1):
-        # 초탄
-        if i == 1:
-            dx = np.random.uniform(0.0, 0.0)
-            dy = np.random.uniform(0.0, 0.0)       
-        elif i <= int(shots / 3):
-            dx = np.random.uniform(0.1, 0.1)
-            dy = np.random.uniform(0.3, 0.3)
-        # 중탄
+        # 초반
+        if i <= int(shots / 3):
+            dx = np.random.uniform(-0.1, 0.1)
+            dy = np.random.uniform(0.1, 0.4)
+        # 중반
         elif i <= int((shots / 3) * 2):
             dx = np.random.normal(0.1, 0.3)
             dy = np.random.normal(0.1, 0.3)
-        # 후탄
+        # 후반
         else:
-            dx = np.random.uniform(1, 0.5)
-            dy = np.random.normal(0.0, 0.2)
+            dx = np.random.uniform(-0.5, 0.5)
+            dy = np.random.uniform(-0.2, 0.2)
 
         dx_list.append(dx)
         dy_list.append(dy)
@@ -54,7 +51,7 @@ def machinegun_recoil_points(shots):
 
     # csvResult 포맷 문자열 생성
     csv_result = ",".join(
-        [f"(OffsetPitch={round(pitch, 2)},OffsetYaw={round(yaw, 2)})"
+        [f"(OffsetPitch={round(-pitch, 2)},OffsetYaw={round(yaw, 2)})"
          for pitch, yaw in zip(offset_pitch, offset_yaw)]
     )
 
